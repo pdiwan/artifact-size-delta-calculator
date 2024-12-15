@@ -54,6 +54,18 @@ def semver_tuple(version):
     return version.to_tuple()
 
 
+# Healthcheck endpoint
+@app.route("/health", methods=["GET"])
+def health():
+    return jsonify({"Status": "Healthy"}), 200
+
+
+# / endpoint
+@app.route("/", methods=["GET"])
+def home():
+    return jsonify({"Message": "Welcome to artifacts size delta calculater app"}), 200
+
+
 # API definition for extracting bloat ratios
 @app.route("/apache/airflow/bloat", methods=["GET"])
 def get_artifact_deltas():
