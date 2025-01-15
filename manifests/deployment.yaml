@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: artifact-size-delta-calculator
+  namespace: caldera
+  labels:
+    app: artifact-size-delta-calculator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: artifact-size-delta-calculator
+  template:
+    metadata:
+      labels:
+        app: artifact-size-delta-calculator
+    spec:
+      containers:
+      - name: artifact-size-delta-calculator
+        image: piyushdiwan/artifact-size-delta-calculator:v1.0
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 120
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 120
+          timeoutSeconds: 10
+          failureThreshold: 3
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          periodSeconds: 120
+          failureThreshold: 3
+        ports:
+        - containerPort: 5000
+        resources:
+          limits:
+            memory: "1Gi"
+            cpu: "1"
+          requests:
+            memory: "1Gi"
+            cpu: "0.5"

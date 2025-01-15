@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: artifact-size-delta-calculator-svc
+  namespace: caldera
+  labels:
+    app: artifact-size-delta-calculator
+spec:
+  type: LoadBalancer 
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 5000
+  - name: https
+    port: 443
+    protocol: TCP
+    targetPort: 5000
+  selector:
+    app: artifact-size-delta-calculator
